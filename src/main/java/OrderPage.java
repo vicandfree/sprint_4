@@ -16,10 +16,14 @@ public class OrderPage {
     private final By metroStationField = By.xpath("//input[1][@placeholder='* Станция метро']");
     private final By phoneNum = By.xpath("//input[@placeholder='* Телефон: на него позвонит курьер']");
     private final By proceedButton = By.cssSelector(".Button_Button__ra12g.Button_Middle__1CSJM");
-    private static final By orderForm = By.cssSelector(".Order_Content__bmtHS");
+    private final By orderForm = By.cssSelector(".Order_Content__bmtHS");
 
     public OrderPage(WebDriver driver) {
         this.driver = driver;
+    }
+
+    public void waitUntilLoaded() {
+        new WebDriverWait(driver, 5).until(ExpectedConditions.visibilityOfElementLocated(orderForm));
     }
 
     public void fillInTextFields(String firstName, String lastName, String address, String phoneNumber) {
@@ -35,17 +39,11 @@ public class OrderPage {
         selectedStation.sendKeys(station);
         selectedStation.sendKeys(Keys.ARROW_DOWN);
         selectedStation.sendKeys(Keys.ENTER);
+
         driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
     }
 
     public void clickProceedButton() {
-        driver.findElement(proceedButton).isEnabled();
-        driver.findElement(proceedButton).click();
-
-        new WebDriverWait(driver, 3).until(ExpectedConditions.visibilityOfElementLocated(DetailsPage.getOrderHeader()));
-    }
-
-    public static By getOrderForm() {
-        return orderForm;
+        new WebDriverWait(driver, 5).until(ExpectedConditions.elementToBeClickable(proceedButton)).click();
     }
 }
