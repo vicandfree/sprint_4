@@ -60,7 +60,6 @@ public class SamokatHomePageTest {
         home.navigateToHomePage();
         home.waitUntilLoaded();
         home.acceptCookies();
-        
         assertEquals(answer, home.getAnswerToFAQ(index));
     }
 
